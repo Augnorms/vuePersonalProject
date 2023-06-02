@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-screen absolute z-10  max-sm:p-[10px] transition-[right] duration-[.8s] ease-in-out"
+    <div class="w-full h-screen absolute z-10  max-sm:p-[10px] transition-[right] duration-[.6s] ease-in-out"
          :class="{'right-0':deleteModal.deletePopup, 'right-[-110%]':!deleteModal.deletePopup}"
          :style="{'background-color': 'rgba(0, 0, 0, 0.5)'}"
     >
