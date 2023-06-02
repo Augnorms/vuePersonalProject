@@ -63,7 +63,7 @@ import {useSideBarContent} from '../../stores/sideBarSelect'
 <style>
   @media (max-width: 600px) {
     .custom-background {
-      background-color: rgba(98, 100, 100, 0.1);
+      background-color: rgba(249, 250, 250, 10);
     }
   }
 </style>

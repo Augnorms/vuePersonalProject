@@ -1,34 +1,18 @@
 <template>
-    <div class="w-full md:h-[100%] shadow-2xl rounded-lg">
-        <div class="w-full flex">
+    <div class="w-full h-[100%] shadow-2xl rounded-lg">
 
-            <div class="w-[50%]">
-                <p class="text-[20px] font-bold">Todo App</p>
-            </div>
-
-            <div class="w-[50%]  flex justify-end">
-
-                <div class="w-[30px] h-[30px] rounded-full  mr-2 shadow-md">
-
-                </div>
-
-                <div class="w-[30px] h-[30px] rounded-full  mr-2 shadow-md">
-
-                </div>
-
-                <div class="w-[30px] h-[30px] rounded-full  mr-2 shadow-md">
-
-                </div>
-
-            </div>
-
-        </div>
+        <TodoAppContent /> <!--your todo components here-->
+        
     </div>
 </template>
 
 <script lang="ts">
+import TodoAppContent from '../../../TodoAppComponent/TodoAppContent.vue';
 
 export default {
+    components:{
+        TodoAppContent
+    },
     setup () {
         
 

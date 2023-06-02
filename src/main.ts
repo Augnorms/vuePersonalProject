@@ -5,6 +5,7 @@ import router from './router';
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
 import { provideApolloClient } from '@vue/apollo-composable';
 import PrimeVue from 'primevue/config';
+import Notifications from 'notiwind'
 
 import './assets/tailwind.css'
 import 'primeicons/primeicons.css';
@@ -31,5 +32,6 @@ app.use(router);
 
 app.use(PrimeVue);
 provideApolloClient(apolloClient);
+app.use(Notifications)
 
 app.mount('#app');
