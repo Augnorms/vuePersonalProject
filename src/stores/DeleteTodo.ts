@@ -5,7 +5,7 @@ import {deleteTodo} from '../graphql_Queries_mutations/Mutation/DelTodoMutation'
 import { fetchedTodo } from "@/graphql_Queries_mutations/Queries/SelectTodo";
 import {notify} from "notiwind"
 
-type TodoDeletProp = {
+type TodoDataInsertProp = {
   id:string, //optional for data update
   name:string,
   starttime:string,
@@ -16,7 +16,7 @@ type TodoDeletProp = {
 export const useTodoDelete = defineStore('deletetodo',()=>{
 
   //fetching data after deletion
-  const dataContainerForTodos = ref<TodoDeletProp[]>([])
+  const dataContainerForTodos = ref<TodoDataInsertProp[]>([])
 
   const { result, refetch: fetchAllTodos } = useQuery(fetchedTodo);
  
@@ -63,7 +63,7 @@ const { mutate: deletion } = useMutation(deleteTodo, () => ({
 
               handleDeletePopup()
 
-              fetchAllTodos()
+             fetchAllTodos() //refresh page after successful deletion
 
          }else{
             notify({

@@ -175,6 +175,16 @@ export const useTodoDataInsertAnUpdate = defineStore('', ()=>{
 
               modalControl.handleModalState();
 
+              changeToUpdateState.value = false //reset the updatestate
+
+              //clear the form
+
+              TodoDataInsert.id = ""
+              TodoDataInsert.name = ""
+              TodoDataInsert.starttime = ""
+              TodoDataInsert.endtime = ""
+              TodoDataInsert.date = ""
+
         }else{
             notify({
                 group: "error",
