@@ -53,13 +53,15 @@
                                                 
                                                 <img src="/images/edit.png"  
                                                 class="w-[20px] h-[20px] max-sm:mr-[4px] 
-                                                mr-[10px] cursor-pointer" alt="edit" />
+                                                mr-[10px] cursor-pointer" alt="edit"
+                                               @click="fetchTodoById.handleTodoFetch(todo.id)"/>
                                                 
 
                                             
                                                 <img src="/images/delete.png"  
                                                 class="w-[20px] h-[20px] max-sm:ml-[4px] ml-[10px] 
-                                                cursor-pointer" alt="delete" @click="deletePopup.handleDeletePopup(todo.id)"/>
+                                                cursor-pointer" alt="delete"
+                                                 @click="deletePopup.handleDeletePopup(todo.id)"/>
                                             
                                                 
                                             </div>
@@ -82,6 +84,7 @@ import { ref, watchEffect } from 'vue';
 import {fetchedTodo} from '../graphql_Queries_mutations/Queries/SelectTodo'
 import { useQuery } from '@vue/apollo-composable'
 import { useTodoDelete } from '../stores/DeleteTodo';
+import {useTodoDataInsertAnUpdate} from '../stores/todoDataInsertAndUpdate'
 
 interface Todo {
   id: string;
@@ -100,8 +103,7 @@ export default {
         const Addmodal = useModalControl()
         const dataContainer = ref<Todo[]>([])
         const deletePopup = useTodoDelete()
-
-
+   
         watchEffect(() => {
 
         const { result, loading } = useQuery(fetchedTodo);
@@ -112,7 +114,9 @@ export default {
         }
         });
 
-        return { Addmodal, dataContainer, deletePopup };
+        const fetchTodoById = useTodoDataInsertAnUpdate() //fetching for update
+
+        return { Addmodal, dataContainer, deletePopup,  fetchTodoById};
 },
 
 }

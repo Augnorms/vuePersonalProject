@@ -21,10 +21,26 @@
             </div>
 
             <div class="w-full p-[10px] border-b-2">
-               <p class="font-bold text-center text-[25px]">Add Todo</p>  
+
+              <p class="font-bold text-center text-[25px]" v-if="todoDataUpdate.changeToUpdateState">Update Todo</p>
+               <p class="font-bold text-center text-[25px]" v-else-if="!todoDataUpdate.changeToUpdateState">Add Todo</p>  
+                 
             </div>
 
             <div><!--form-->
+
+                <div class="w-full"><!--optional for data update-->
+                    <div class="w-[100%] p-[8px]">
+                        <reusableInput 
+                         type="hidden"
+                         name="id"
+                         class="w-full border p-[8px] rounded outline-none"
+                         placeholder="enter your id"
+                         v-model="todoDatainsert.TodoDataInsert.id"
+                         />
+                       
+                    </div>
+                </div>
 
                 <div class="w-full flex">
                     <div class="w-[30%] p-[8px]">
@@ -99,15 +115,31 @@
                     </div>
                 </div>
 
-                <div class="w-[100%] p-[8px]">
-                        
+                <div class="w-[100%] p-[8px]" v-if="!todoDataUpdate.changeToUpdateState">
+                       
+                    <!--insert button-->
                    <button class="p-[8px] w-full bg-[dodgerblue] rounded text-[white] font-bold"
                    @click="todoDatainsert.handleTodoInsert">
+
                     <i v-if="todoDatainsert.isLoading" class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
-                    <p v-else-if="!todoDatainsert.isLoading">AddTodo</p>   
+                    <p v-else-if="!todoDatainsert.isLoading">AddTodo</p>  
+
                     </button>      
 
                 </div>
+
+                <!--update button-->
+                <div class="w-[100%] p-[8px]" v-else-if="todoDataUpdate.changeToUpdateState">
+                        
+                        <button class="p-[8px] w-full bg-[dodgerblue] rounded text-[white] font-bold"
+                        @click="todoDataUpdate.handleUpdateTodo">
+
+                         <i v-if="todoDataUpdate.fetchIsLoading" class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+                         <p v-else-if="!todoDataUpdate.fetchIsLoading">UpdateTodo</p> 
+
+                         </button>      
+     
+                 </div>
 
             </div><!--form end-->
 
@@ -118,7 +150,7 @@
 
 <script lang="ts">
 import { useModalControl } from '../stores/modalControl';//from pinia
-import {useTodoDataInsert} from '../stores/todoDataInsert'
+import {useTodoDataInsertAnUpdate} from '../stores/todoDataInsertAndUpdate'
 import reusableInput from '../reusables/reusableInput.vue';
 
 export default {
@@ -128,9 +160,10 @@ export default {
     setup () {
      
         const Addmodal = useModalControl()
-        const todoDatainsert = useTodoDataInsert()//inserting data
+        const todoDatainsert = useTodoDataInsertAnUpdate()//inserting data
+        const todoDataUpdate = useTodoDataInsertAnUpdate() //updating data
 
-        return {Addmodal, todoDatainsert}
+        return {Addmodal, todoDatainsert, todoDataUpdate}
     }
 }
 </script>

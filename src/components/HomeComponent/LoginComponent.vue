@@ -9,7 +9,7 @@
             loginFormData.authenticatStatus === false">
 
                 <reusableAlert 
-                :message="loginFormData.authenticatStatus === true ? 'success' : 'Ooops sorry try again'"
+                :message="loginFormData.authenticatStatus === true ? 'success be patient almost done setting up' : 'Ooops sorry try again'"
                 :class="loginFormData.authenticatStatus === true ? 'bg-[#3A5B22] text-[#fff] p-2 rounded text-[18px]' : 
                                         'bg-[crimson] text-[#fff] p-2 rounded text-[18px]'"
                 />
