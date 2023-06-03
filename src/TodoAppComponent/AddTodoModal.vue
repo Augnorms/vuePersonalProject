@@ -153,6 +153,7 @@ import { useModalControl } from '../stores/modalControl';//from pinia
 import {useTodoDataInsertAnUpdate} from '../stores/todoDataInsertAndUpdate'
 import reusableInput from '../reusables/reusableInput.vue';
 
+
 export default {
    components:{
     reusableInput
@@ -162,6 +163,8 @@ export default {
         const Addmodal = useModalControl()
         const todoDatainsert = useTodoDataInsertAnUpdate()//inserting data
         const todoDataUpdate = useTodoDataInsertAnUpdate() //updating data
+        
+      
 
         return {Addmodal, todoDatainsert, todoDataUpdate}
     }

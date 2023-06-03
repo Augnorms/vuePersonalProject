@@ -32,7 +32,7 @@
                                 <th class="text-start ">Actions</th>
                             </thead>
                             <tbody>
-                                 <tr v-if="dataContainer.length < 1">
+                                 <tr v-if="dataContainer.dataContainerForTodos.length < 1">
                                     <td colspan="5" class="text-center">
                                         <div class="flex justify-center items-center h-full">
                                           <img src="/images/empty.png" class="w-[40px]" />
@@ -40,7 +40,7 @@
                                     </td>
                                   </tr>
 
-                                  <tr v-for="todo in dataContainer" :key="todo['id']">
+                                  <tr v-for="todo in dataContainer.dataContainerForTodos" :key="todo['id']">
                                         <td class="text-start xl:w-[30%] border-b-[1px] p-4">
                                             {{ todo["name"] }}
                                         </td>
@@ -80,19 +80,9 @@
 
 <script lang="ts">
 import { useModalControl } from '../stores/modalControl';
-import { ref, watchEffect } from 'vue';
-import {fetchedTodo} from '../graphql_Queries_mutations/Queries/SelectTodo'
-import { useQuery } from '@vue/apollo-composable'
 import { useTodoDelete } from '../stores/DeleteTodo';
 import {useTodoDataInsertAnUpdate} from '../stores/todoDataInsertAndUpdate'
 
-interface Todo {
-  id: string;
-  name: string;
-  starttime: string;
-  endtime: string;
-  date: string;
-}
 
 export default {
     components:{
@@ -101,20 +91,10 @@ export default {
     setup () {
         
         const Addmodal = useModalControl()
-        const dataContainer = ref<Todo[]>([])
+        const dataContainer = useTodoDataInsertAnUpdate() //array containing the fetched data
         const deletePopup = useTodoDelete()
-   
-        watchEffect(() => {
-
-        const { result, loading } = useQuery(fetchedTodo);
-
-        if (!loading.value && result.value) {
-            
-            dataContainer.value = result.value.get_all_todos;
-        }
-        });
-
         const fetchTodoById = useTodoDataInsertAnUpdate() //fetching for update
+
 
         return { Addmodal, dataContainer, deletePopup,  fetchTodoById};
 },

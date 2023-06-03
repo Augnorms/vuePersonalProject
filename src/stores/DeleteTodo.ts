@@ -1,12 +1,33 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
-import { useMutation } from "@vue/apollo-composable";
+import { ref, watchEffect} from "vue";
+import { useMutation, useQuery } from "@vue/apollo-composable";
 import {deleteTodo} from '../graphql_Queries_mutations/Mutation/DelTodoMutation'
+import { fetchedTodo } from "@/graphql_Queries_mutations/Queries/SelectTodo";
 import {notify} from "notiwind"
 
+type TodoDeletProp = {
+  id:string, //optional for data update
+  name:string,
+  starttime:string,
+  endtime:string,
+  date:string
+}
 
 export const useTodoDelete = defineStore('deletetodo',()=>{
 
+  //fetching data after deletion
+  const dataContainerForTodos = ref<TodoDeletProp[]>([])
+
+  const { result, refetch: fetchAllTodos } = useQuery(fetchedTodo);
+ 
+  watchEffect(() => {
+      if (result.value) {
+        dataContainerForTodos.value = result.value.get_all_todos;
+      }
+ });
+
+
+ //performing delete operations
    const deletePopup = ref<boolean>(false)
    const deleteId = ref<string>("")
    const isLoading = ref<boolean>(false)
@@ -41,6 +62,9 @@ const { mutate: deletion } = useMutation(deleteTodo, () => ({
               }, 7000)
 
               handleDeletePopup()
+
+              fetchAllTodos()
+
          }else{
             notify({
                 group: "error",

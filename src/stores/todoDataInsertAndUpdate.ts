@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import {createTodo} from '../graphql_Queries_mutations/Mutation/AddTodo'
-import { useMutation, useApolloClient } from "@vue/apollo-composable";
-import { reactive, ref } from "vue";
+import { useMutation, useApolloClient, useQuery } from "@vue/apollo-composable";
+import { reactive, ref, watchEffect } from "vue";
 import {notify} from "notiwind"
 import { useModalControl } from "./modalControl";
 import { selectTodoById } from "@/graphql_Queries_mutations/Queries/SelectTodoById";
 import {updateTodo} from '../graphql_Queries_mutations/Mutation/UpdateTodo'
+import { fetchedTodo } from "@/graphql_Queries_mutations/Queries/SelectTodo";
 
 
 
@@ -28,6 +29,18 @@ export const useTodoDataInsertAnUpdate = defineStore('', ()=>{
         endtime:"",
         date:""
     })
+
+    //fetchdata here
+
+    const dataContainerForTodos = ref<TodoDataInsertProp[]>([])
+
+    const { result, refetch: fetchAllTodos } = useQuery(fetchedTodo);
+   
+    watchEffect(() => {
+        if (result.value) {
+          dataContainerForTodos.value = result.value.get_all_todos;
+        }
+   });
 
 
    const {mutate:insertTodo} = useMutation(createTodo, ()=>({
@@ -53,6 +66,8 @@ export const useTodoDataInsertAnUpdate = defineStore('', ()=>{
                     title: "Success",
                     text: "TodoCreated Successfully!"
                   }, 10000)
+
+                  fetchAllTodos() // refresh the page
 
                   modalControl.handleModalState();
 
@@ -155,6 +170,11 @@ export const useTodoDataInsertAnUpdate = defineStore('', ()=>{
                 title: "Success",
                 text: "TodoUpdated Successfully!"
               }, 6000)
+
+              fetchAllTodos() // refresh the page
+
+              modalControl.handleModalState();
+
         }else{
             notify({
                 group: "error",
@@ -168,5 +188,7 @@ export const useTodoDataInsertAnUpdate = defineStore('', ()=>{
 
 
 
-    return{handleTodoInsert, handleTodoFetch, handleUpdateTodo, TodoDataInsert, changeToUpdateState, isLoading, fetchIsLoading}
+    return{handleTodoInsert, handleTodoFetch, handleUpdateTodo, 
+      TodoDataInsert, changeToUpdateState, isLoading, fetchIsLoading, 
+      dataContainerForTodos}
 })
